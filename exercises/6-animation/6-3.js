@@ -11,12 +11,15 @@ let speedCar1 = 5;
 let xCar2 = width - 200;
 let speedCar2 = -5;
 
+//Rana
 let speed = 20;
 let x = width / 2;
 let y = height - 75;
 
 context.textAlign = "center";
 context.font = "bold 78pt Arial";
+
+
 document.onkeydown = getKey;
 
 /**
@@ -41,8 +44,8 @@ function getKey(e) {
     if (e.key == "ArrowRight") {
         x += speed;
     }
-
 }
+
 
 main();
 
@@ -96,6 +99,7 @@ function drawCar(x, y) {
 function drawRoad() {
     context.fillStyle = "lightgreen";
     context.fillRect(0, 0, width, height);
+    
     for (let i = 0; i < 3; i++) {
         if (i % 2 == 0) {
             context.fillStyle = "gray";

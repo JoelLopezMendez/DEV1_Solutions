@@ -15,8 +15,10 @@ function move(e) {
     console.log(e.pageX);
     context.fillStyle = "white";
     context.fillRect(0, 0, width, height);
+
     context.strokeStyle = "red";
     context.lineWidth = 5;
+    
     context.beginPath();
     context.moveTo(e.pageX, 0);
     context.lineTo(e.pageX, height);

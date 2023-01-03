@@ -8,8 +8,8 @@ let height = context.canvas.height;
 let size = 50;
 let x = Utils.randomNumber(size, width - size);
 let y = Utils.randomNumber(size, height - size);
-let hSpeed = 15;
-let vSpeed = 15;
+let hSpeed = 10;
+let vSpeed = 10;
 let isPlaying = true;
 
 document.onmousedown = click;
@@ -27,6 +27,9 @@ function click(e) {
     }
 }
 
+
+
+// Binnen de canvas blijven botsen
 draw();
 
 function draw() {

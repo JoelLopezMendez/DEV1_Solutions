@@ -46,10 +46,10 @@ function drawColoredGrid() {
     let nColumns = 10;
     let nRows = 10;
     let colorStep = 360 / (nColumns * nRows);
-    for (let column = 0; column < nColumns; column++) {
+    for (let columnx = 0; columnx < nColumns; columnx++) {
         for (let row = 0; row < nRows; row++) {
             context.fillStyle = Utils.hsl(colorStep * color, 200, 50);
-            context.fillRect(50 + column * 55, 50 + row * 55, 50, 50);
+            context.fillRect(50 + columnx * 55, 50 + row * 55, 25, 50);
             color++;
         }
     }

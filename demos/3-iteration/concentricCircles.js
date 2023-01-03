@@ -20,7 +20,7 @@ function drawConcentricCircles() {
 
     let i = 20;
     while (i > 0) {
-        context.fillStyle = Utils.hsl(i * 18, 100, 50);
+        context.fillStyle = Utils.hsl(i * 12 * 10, 100, 50);
         Utils.fillCircle(250, 250, i * 10);
         i--;
     }

@@ -17,6 +17,7 @@ function drawRandomCircles() {
 
         let distance = Utils.calculateDistance(x, y, width / 2, height / 2);
         if (distance < 250) {
+            //los circulos no salen de esta distacia de 250
             if (y < height / 2 && x < width / 2) {
                 context.fillStyle = "red";
             } else if (y < height / 2 && x > width / 2) {
