@@ -1,1 +1,0 @@
-context.fillStyle = Utils.hsla(Utils.randomNumber(0, 180), 75, 50, 50);

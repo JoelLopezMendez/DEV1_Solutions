@@ -1,111 +1,116 @@
-'use strict';
-import context from "../../scripts/context.js";
-import * as Utils from "../../scripts/utils.js";
+"use strict";
+import context from "../../Scripts/Context.js";
+import * as Utils from "../../Scripts/Utils.js";
 
-let width = context.canvas.width;
-let height = context.canvas.height;
+let width = window.innerWidth;
+let height = window.innerHeight;
 
-reset();
-document.getElementById("draw").onclick = drawCards;
 
-function drawCards() {
-    reset();
-    let input1 = Number(document.getElementById("input1").value);
-    let r = Utils.randomNumber(0, input1);
-    for (let i = 0; i < input1; i++) {
-        drawCard(75 + i % 10 * 125, 150 + Math.floor(i / 10) * 175, r == i);
+let squares = [];
+let rNumber = [1, 2, 3, 4];
+
+let size = 50;
+let x = Utils.randomNumber(size, width - size);
+let y = Utils.randomNumber(size, height - size);
+let xSpeed = 5;
+let ySpeed = 5;
+
+document.getElementById("draw").onclick = numner;
+
+function update() {
+    // drawSquare();
+    drawRect();
+
+    requestAnimationFrame(update);
+}
+
+function setup() {
+    for (let i = 0; i < 1000; i++) {
+        let square = {
+            rN: Utils.randomNumber(1, 4),
+            x: Utils.randomNumber(0, width),
+            y: Utils.randomNumber(0, height),
+            triangulo: function () {
+                context.beginPath();
+                context.moveTo(width / 4 * 3 + 20, height / 4 * 3 - 50);
+                context.lineTo(width / 4 * 3 + 100, height / 4 * 3 + 75);
+                context.lineTo(width / 4 * 3 - 50, height / 4 * 3 + 75);
+                context.lineTo(width / 4 * 3 + 30, height / 4 * 3 - 50);
+                context.stroke();
+            },
+            drawSquares: function () {
+                if (this.x < width / 2 && this.y < height / 2) {
+                    context.fillStyle = 'red';
+                } else if (this.y > height / 2 && this.x > width / 2) {
+                    context.fillStyle = 'blue';
+                } else if (this.x > width / 2 && this.y < height / 2) {
+                    context.fillStyle = "green";
+                } else if (this.x < width / 2 && this.y > height / 2) {
+                    context.fillStyle = 'yellow';
+                }
+                context.fillRect(this.x, this.y, 20, 20);
+            }
+        };
+        squares.push(square);
     }
 }
 
-function reset() {
-    context.fillStyle = "seagreen";
+function drawRect() {
+    context.fillRect(x, y, size, size);
+
+    if (x > width - size || x < 0) {
+        xSpeed *= -1;
+    }
+    if (y < 0 || y > height - size) {
+        ySpeed *= -1;
+    }
+
+    x += xSpeed;
+    y -= ySpeed;
+}
+
+function drawSquare() {
+    context.fillStyle = "orange";
     context.fillRect(0, 0, width, height);
+
+    for (let i = 0; i < squares.length; i++) {
+        let square = squares[i];
+
+        square.drawSquares();
+    }
+    context.fillStyle = "black";
+    Utils.fillCircle(width / 2, height / 2, 75);
+
+    // document.getElementById("render").onclick = numner;
 }
 
-function drawCard(x, y, pick) {
-    let r = Math.floor(Math.random() * 13 + 1);
-    context.lineWidth = 2;
-    if (pick) {
-        context.fillStyle = "yellow";
-    } else {
-        context.fillStyle = "white";
-    }
-    context.beginPath();
-    context.rect(x - 50, y - 50, 100, 150);
-    context.fill();
-    context.stroke();
-    context.textAlign = "center";
-    context.font = "bold 32pt Arial";
-    drawRandomShape(x, y);
-    if (r <= 10) {
-        context.fillText(r, x, y + 75);
-    } else if (r == 11) {
-        context.fillText("J", x, y + 75);
-    } else if (r == 12) {
-        context.fillText("Q", x, y + 75);
-    } else if (r == 13) {
-        context.fillText("K", x, y + 75);
-    }
+function numner() {
+    context.lineWidth = 20;
 
-}
+    let chooseNumners = rNumber[Utils.randomNumber(0, 3)];
+    console.log(chooseNumners = rNumber[Utils.randomNumber(0, 3)]);
 
-function drawRandomShape(x, y) {
-    let r = Math.floor(Math.random() * 4);
-    if (r == 0) {
+    for (let i = 0; i < rNumber.length; i++) {
+        // drawSquare();
+        let square = squares[i];
+
         context.fillStyle = "red";
-        drawHeart(x, y);
-    } else if (r == 1) {
-        context.fillStyle = "red";
-        drawDiamond(x, y);
-    } else if (r == 2) {
-        context.fillStyle = "black";
-        drawClover(x, y);
-    } else if (r == 3) {
-        context.fillStyle = "black";
-        drawPike(x, y);
+        context.font = "bold " + 100 + "pt Arial";
+        context.fillText(chooseNumners, width / 2 - 40, height / 2 + 45);
+        if (chooseNumners == 1) {
+            context.strokeRect(width / 8, height / 6, 140, 140);
+        } else if (chooseNumners == 2) {
+            Utils.strokeCircle(width / 4 * 3, height / 4, 75);
+        } else if (chooseNumners == 3) {
+            Utils.strokeEllipse(height / 5, height / 5 * 4, 100, 50);
+        } else if (chooseNumners == 4) {
+            square.triangulo();
+        }
     }
+    context.fillStyle = 'white';
 }
 
-function drawHeart(x, y) {
-    context.beginPath();
-    context.moveTo(x, y - 10);
-    context.bezierCurveTo(x, y - 25, x + 40, y - 15, x, y + 20);
-    context.moveTo(x, y - 10);
-    context.bezierCurveTo(x, y - 25, x - 40, y - 15, x, y + 20);
-    context.fill();
-}
-
-function drawClover(x, y) {
-    Utils.fillCircle(x - 10, y + 5, 10);
-    Utils.fillCircle(x + 10, y + 5, 10);
-    Utils.fillCircle(x, y - 10, 10);
-    context.beginPath();
-    context.moveTo(x, y);
-    context.lineTo(x + 5, y + 20);
-    context.lineTo(x - 5, y + 20);
-    context.fill();
-
-}
-
-function drawPike(x, y) {
-    context.beginPath();
-    context.moveTo(x, y - 20);
-    context.bezierCurveTo(x, y - 30, x + 40, y + 20, x, y + 10);
-    context.moveTo(x, y - 20);
-    context.bezierCurveTo(x, y - 30, x - 40, y + 20, x, y + 10);
-    context.fill();
-    context.beginPath();
-    context.moveTo(x, y);
-    context.lineTo(x + 5, y + 20);
-    context.lineTo(x - 5, y + 20);
-    context.fill();
-}
-
-function drawDiamond(x, y) {
-    context.beginPath();
-    context.moveTo(x - 20, y);
-    context.lineTo(x, y - 20);
-    context.lineTo(x + 20, y);
-    context.lineTo(x, y + 20);
-    context.fill();
-}
+setup();
+update();
+drawSquare();
+numner();
